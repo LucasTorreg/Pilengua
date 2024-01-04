@@ -1,5 +1,7 @@
 consonantes = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "ll", "m", "n", "ñ", "p", "q", "r", "s", "t", "v", "w", "x", "z"]
 
+vocales = ["a", "e","i", "o", "u", "á", "é", "í", "ó", "ú"]
+
 vocales_abiertas = ["a", "e", "o", "á", "é", "ó", "ú"]
 
 vocales_cerradas = ["i", "u", "ü"]
@@ -8,20 +10,30 @@ semivocales = ["y"]
 
 
 def separarSilabas(palabra):
-    letras = list(palabra)
-    grupos_vocales=[]
+    silabas = []
+
+    usadas=[]
     consonante_izquierda=[]
     
-    
-    pos=0
-    for letra in letras:
-        if letra in vocales_abiertas:
-            grupos_vocales.append(letra)
-            if pos != 0 and letras[pAnterior] in consonantes:
-                union = letras[pAnterior]+letra
-                consonante_izquierda.append(union)
+    for l in palabra:
+        if l in vocales:
+            actual = palabra.index(l)
+            if actual != 0:
+                anterior = palabra[actual-1]
 
-        pos += 1
-        pAnterior = pos - 1
+            if anterior in vocales and l in vocales:
+                if len(palabra)<actual+1:
+                    silabas[-1] += l
 
-    return consonante_izquierda
+
+            if palabra[actual] in vocales:
+                silaba = palabra[: actual+1]
+
+                silabas.append(silaba)
+                palabra = palabra.split(silaba)
+                print(palabra, silaba)
+                palabra = palabra[1]
+
+
+
+    return silabas
